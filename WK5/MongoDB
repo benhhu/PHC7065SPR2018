@@ -1,0 +1,40 @@
+#start, stop, and restart service
+
+sudo service mongod start
+sudo service mongod stop
+sudo service mongod restart
+
+#veryify installation
+sudo gedit /var/log/mongodb/mongod.log
+
+#Install PyMongo
+sudo -H pip2 install pymongo
+
+#open MongoDB shell
+mongo
+
+#configure username and password
+use admin
+db.createUser({user:"admin",pwd:"admin",roles:[{role:"root",db:"admin"}]})
+
+#show dbs
+show dbs
+
+#switch database
+use local
+
+#print a list of all collections for current database
+show collections
+
+# db is the variable that references the current database
+db
+
+#get stats of the current database
+db.stats()
+
+#quit
+quit()
+
+
+
+
