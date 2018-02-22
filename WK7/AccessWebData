@@ -7,7 +7,8 @@ telnet www.ufl.edu 80
 GET http://www.ufl.edu/index.html
 
 #Install BeautifulSoup
-pip install beautifulsoup4
+sudo -H pip2 install beautifulsoup4
+sudo -H pip2 install --upgrade html5lib==1.0b8
 
 #Install oauth lib
-pip install oauth
+sudo -H pip2 install oauth
