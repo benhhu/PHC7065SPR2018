@@ -1,0 +1,61 @@
+#install PostGIS
+sudo add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main"
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo aptitude update
+sudo aptitude install postgresql-9.6 postgresql-client-9.6 postgresql-contrib-9.6
+sudo aptitude install postgresql-9.6-postgis-2.4
+sudo aptitude install postgresql-9.6-pgrouting
+
+sudo pg_dropcluster 9.6 main --stop
+sudo pg_upgradecluster 9.5 main
+sudo pg_dropcluster 9.5 main
+
+##PostGIS
+# create a database "postgisdb" and a user "spr18" for access
+sudo -u postgres createuser -P spr18
+#enter spr18 as the password
+sudo -u postgres createdb -O spr18 postgisdb
+
+#enable the PostGIS extension
+sudo -u postgres psql -c "CREATE EXTENSION postgis; CREATE EXTENSION postgis_topology;" postgisdb
+
+# confirm that PostGIS extension is enabled
+sudo -u postgres psql -c "SELECT postgis_full_version();" postgisdb
+
+#import shapefile into the postgisdb
+sudo shp2pgsql -I -s 26918 data/nyc_census_blocks.shp public.nyc_census_blocks | psql -d postgisdb
+sudo shp2pgsql -I -s 26918 data/nyc_streets.shp public.nyc_streets | psql -d postgisdb
+sudo shp2pgsql -I -s 26918 data/nyc_neighborhoods.shp public.nyc_neighborhoods | psql -d postgisdb
+sudo shp2pgsql -I -s 26918 data/nyc_subway_stations.shp public.nyc_subway_stations | psql -d postgisdb
+sudo shp2pgsql -I -s 26918 data/nyc_homicides.shp public.nyc_homicides | psql -d postgisdb
+
+# connect to postgresql and use postgisdb
+psql -h localhost -U spr18 postgisdb
+
+#show all the databases
+\l
+
+#show all the tables in the current database
+\dt
+
+#check the definition of srid=26918 directly in PostGIS
+SELECT srtext FROM spatial_ref_sys WHERE srid=26918;
+
+#exit PostgresSQL
+\q
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
