@@ -1,0 +1,8 @@
+# install nltk
+sudo -H pip2 install nltk
+
+# install gensim
+sudo -H pip2 install gensim
+
+# install Cython
+sudo -H pip2 install Cython
