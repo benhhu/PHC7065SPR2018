@@ -1,0 +1,2 @@
+sudo -H pip2 install opencv-python
+sudo -H pip2 install statsmodels
